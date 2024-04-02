@@ -1,30 +1,38 @@
-# React + TypeScript + Vite
+# Chrome Extension - React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repository contains the basic setup for the Chrome extension to read bookmarks, store them in the index database, and search for them by keyword.
 
-Currently, two official plugins are available:
+## Technology Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Vite
+- Typescript
+- React JS
+- Chrome Extension Components
+- Indexdb
+- tailwind
 
-## Expanding the ESLint configuration
+### Chrome Extension Components:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- HTML/CSS/JS Development: This is where you develop the actual content and functionality of the extension using HTML, CSS, and JavaScript.
+- Manifest: The manifest file (manifest.json) describes the extension, its permissions, and other crucial details required by Chrome.
+- Background Script: This script runs in the background and handles events and interactions.
+- Popup Page: The UI that appears when the extension icon is clicked. It typically provides quick access to the extension's features.
+- External APIs: Many extensions interact with external APIs for data retrieval, authentication, or other services.
+- User Interaction/UI: This represents the user interface of the extension as displayed in the browser, including any interaction points or UI elements.
 
-- Configure the top-level `parserOptions` property like this:
+![Snapshot](wiki/assets/screenshot.png)
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+<hr/>
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+### Connect with me on
+<div id="badges">
+  <a href="https://twitter.com/shindesan2012">
+    <img src="https://img.shields.io/badge/shindesan2012-black?style=for-the-badge&logo=twitter&logoColor=white" alt="Twitter Badge"/>
+  </a>
+  <a href="https://www.linkedin.com/in/shindesantosh/">
+    <img src="https://img.shields.io/badge/shindesantosh-blue?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn Badge"/>
+  </a>
+   <a href="https://blog.santoshshinde.com/">
+    <img src="https://img.shields.io/badge/Blog-black?style=for-the-badge&logo=medium&logoColor=white" alt="Medium Badge"/>
+  </a>
+</div>

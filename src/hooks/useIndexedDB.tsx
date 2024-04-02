@@ -44,6 +44,16 @@ const openDatabase = async (databaseName: string): Promise<IDBDatabase> => {
             resolve((event.target as IDBOpenDBRequest).result);
         };
 
+        request.onupgradeneeded = function (event) {
+            const db = (event.target as IDBOpenDBRequest).result;
+    
+            const objectStore = db.createObjectStore('bookmarks', { keyPath: 'id', autoIncrement: true });
+            objectStore.createIndex('title', 'title', { unique: false });
+            objectStore.createIndex('url', 'url', { unique: true });
+    
+            objectStore.transaction.oncomplete = function () {}
+        }
+    
         request.onerror = (event) => {
             reject((event.target as IDBOpenDBRequest).error);
         };

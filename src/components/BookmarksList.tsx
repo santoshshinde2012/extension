@@ -9,8 +9,8 @@ const BookmarksList = ({ foldersMap }: { foldersMap: FolderMap | undefined }) =>
                 foldersMap ? (
                     <>
                         {
-                            Array.from(foldersMap.entries()).map(([folder, bookmarks]) => (
-                                <>
+                            Array.from(foldersMap.entries()).map(([folder, bookmarks], key) => (
+                                <div key={folder+key} className="w-full">
                                     <div className="divide-y divide-gray-200 flex justify-center items-center bg-gray-200 border border-white">
                                         <div className="text-gray-900 py-2">{folder || 'Default'}</div>
                                     </div>
@@ -19,7 +19,7 @@ const BookmarksList = ({ foldersMap }: { foldersMap: FolderMap | undefined }) =>
                                             <ListItem key={index + bookmark.id} bookmark={bookmark} />
                                         ))}
                                     </>
-                                </>
+                                </div>
                             ))
                         }
                     </>

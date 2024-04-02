@@ -18,8 +18,13 @@ interface Bookmark {
 
 type FolderMap = Map<string, Bookmark[]>;
 
+type ExportedData = {
+    bookmarks: Bookmark[];
+    error: Error | null;
+}
 export type {
     Bookmark,
-    FolderMap
+    FolderMap,
+    ExportedData
 }
 

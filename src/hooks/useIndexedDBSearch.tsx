@@ -23,7 +23,7 @@ export function useIndexedDBSearch(searchTerm: string): [FolderMap | undefined, 
         }
 
         fetchRecords();
-    }, [searchTerm]);
+    }, [db, searchTerm]);
 
     return [foldersMap, error];
 }
@@ -32,32 +32,14 @@ async function getRecordsFromDB(db: IDBDatabase, objectStoreName: string, search
         const transaction = db.transaction(objectStoreName, "readonly");
         const objectStore = transaction.objectStore(objectStoreName);
         const foldersMap: FolderMap = new Map<string, Bookmark[]>();
-
         const request = objectStore.openCursor();
         request.onsuccess = (event) => {
             const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result;
             if (cursor) {
                 const record: Bookmark = cursor.value;
                 const folder = record.folder;
-                if (searchTerm && (
-                    record.title.includes(searchTerm) ||
-                    record.url.includes(searchTerm) ||
-                    (record.type && record.type.includes(searchTerm)) ||
-                    (record.keywords && record.keywords.includes(searchTerm)) ||
-                    (record.description && record.description.includes(searchTerm)) ||
-                    (record.originalTitle && record.originalTitle.includes(searchTerm))
-                )) {
-                    if (foldersMap.has(folder)) {
-                        foldersMap.get(folder)?.push(record);
-                    } else {
-                        foldersMap.set(folder, [record]);
-                    }
-                } else {
-                    if (foldersMap.has(folder)) {
-                        foldersMap.get(folder)?.push(record);
-                    } else {
-                        foldersMap.set(folder, [record]);
-                    }
+                if (!searchTerm || checkRecordForSearchTerm(record, searchTerm)) {
+                    updateFolderMap(foldersMap, folder, record);
                 }
                 cursor.continue();
             } else {
@@ -69,4 +51,31 @@ async function getRecordsFromDB(db: IDBDatabase, objectStoreName: string, search
             reject(new Error("Error fetching records from database"));
         };
     });
+}
+
+function checkRecordForSearchTerm(record: Bookmark, searchTerm: string): boolean {
+    const searchTerms = searchTerm.split(' ').filter(term => term.trim() !== '');
+    return searchTerms.some(term =>
+        record.title.includes(term) ||
+        record.url.includes(term) ||
+        (record.type !== undefined && record.type.includes(term)) ||
+        (record.keywords !== undefined && record.keywords.includes(term)) ||
+        (record.description !== undefined && record.description.includes(term)) ||
+        (record.originalTitle !== undefined && record.originalTitle.includes(term))
+    );
+}
+
+function updateFolderMap(foldersMap: FolderMap, folder: string, bookmark: Bookmark) {
+    if (foldersMap.has(folder)) {
+        const bookmarks = foldersMap.get(folder) || [];
+        const index = bookmarks.findIndex(b => bookmark.dateAdded > b.dateAdded);
+        if (index !== -1) {
+            bookmarks.splice(index, 0, bookmark);
+        } else {
+            bookmarks.push(bookmark);
+        }
+        foldersMap.set(folder, bookmarks);
+    } else {
+        foldersMap.set(folder, [bookmark]);
+    }
 }

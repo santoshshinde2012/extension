@@ -3,18 +3,17 @@ import { useIndexedDB } from './useIndexedDB';
 
 export function useIndexedDBCount(databaseName: string, storeName: string): [number | null, Error | null] {
     const [db, error] = useIndexedDB(databaseName);
-    const [totalCount, setTotalCount] = useState<number | null>(null);
+    const [totalCount, setTotalCount] = useState<number | null>(0);
 
     useEffect(() => {
         async function getCount() {
             try {
-                if (!db) {
-                    throw new Error("IndexedDB connection not available");
+                if (db) {
+                    const count = await getCountOfRecords(db, storeName);
+                    setTotalCount(count);
                 }
-                const count = await getCountOfRecords(db, storeName);
-                setTotalCount(count);
             } catch (error) {
-                setTotalCount(null);
+                setTotalCount(0);
                 console.error(error);
             }
         }

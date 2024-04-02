@@ -43,7 +43,7 @@ function fetchMetaInformation(url) {
                 }
 
                 // Regular expression to extract image URL
-                const imgTagRegex = /<img[^>]*?src="([^"]*?)"/i;
+                const imgTagRegex = /<img[^>]*?src="(https?:\/\/[^"]*?\.(?!(gif(?:$|\?)))[^\s"]*?)"/i;
                 const imgMatch = html.match(imgTagRegex);
                 if (imgMatch) {
                     metaInformation['image'] = imgMatch[1];

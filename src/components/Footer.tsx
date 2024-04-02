@@ -1,9 +1,13 @@
 
 
-const Footer = ({ onSnyk, count = 0 }: { onSnyk: Function,count : number | null }) => {
+const Footer = ({ onSnyk, handleExportClick, count = 0 }: { onSnyk: Function, handleExportClick: Function, count: number | null }) => {
 
     const onClick = () => {
         onSnyk()
+    }
+
+    const exportClick = () => {
+        handleExportClick()
     }
 
     return (
@@ -41,8 +45,10 @@ const Footer = ({ onSnyk, count = 0 }: { onSnyk: Function,count : number | null 
                 </button>
             </li>
             <li>
-                <span className="text-gray-700">Count : </span>
-                <span className="text-blue-700">{count}</span>
+                <button onClick={exportClick}>
+                    <span className="text-gray-700">Count : </span>
+                    <span className="text-blue-700">{count}</span>
+                </button>
             </li>
         </ul>
     );
