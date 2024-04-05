@@ -1,7 +1,9 @@
 const databaseName = 'bookmarksDB';
-const objectStoreName = 'bookmarks';
+const bookmarkStoreName = 'bookmarks';
+const syncStoreName = 'sync';
 
 export {
     databaseName,
-    objectStoreName
+    bookmarkStoreName,
+    syncStoreName
 }

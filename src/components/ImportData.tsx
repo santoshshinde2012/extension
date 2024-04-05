@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Bookmark } from '../types';
 import { useIndexedDB } from '../hooks/useIndexedDB';
-import { databaseName, objectStoreName } from '../constants';
+import { databaseName, bookmarkStoreName } from '../constants';
 
 const ImportData = () => {
     const [file, setFile] = useState<File | null>(null);
@@ -56,12 +56,11 @@ const ImportData = () => {
             if (!db) {
                 throw new Error("IndexedDB connection not available");
             }
-            const transaction = db.transaction(objectStoreName, 'readwrite');
-            const objectStore = transaction.objectStore(objectStoreName);
+            const transaction = db.transaction(bookmarkStoreName, 'readwrite');
+            const objectStore = transaction.objectStore(bookmarkStoreName);
             for (const record of data) {
                 objectStore.add(record);
             }
-            transaction.oncomplete;
         } catch (error) {
             throw new Error('Failed to import data to IndexedDB');
         }

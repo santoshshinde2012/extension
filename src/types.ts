@@ -22,8 +22,15 @@ type ExportedData = {
     bookmarks: Bookmark[];
     error: Error | null;
 }
+
+interface SyncStatus {
+    status: boolean;
+    lastSynced?: Date;
+}
+
 export type {
     Bookmark,
+    SyncStatus,
     FolderMap,
     ExportedData
 }

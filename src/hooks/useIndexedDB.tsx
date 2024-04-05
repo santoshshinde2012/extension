@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { bookmarkStoreName, syncStoreName } from '../constants';
 
 export function useIndexedDB(databaseName: string): [IDBDatabase | null, Error | null] {
     const [db, setDb] = useState<IDBDatabase | null>(null);
@@ -47,11 +48,9 @@ const openDatabase = async (databaseName: string): Promise<IDBDatabase> => {
         request.onupgradeneeded = function (event) {
             const db = (event.target as IDBOpenDBRequest).result;
     
-            const objectStore = db.createObjectStore('bookmarks', { keyPath: 'id', autoIncrement: true });
-            objectStore.createIndex('title', 'title', { unique: false });
-            objectStore.createIndex('url', 'url', { unique: true });
-    
-            objectStore.transaction.oncomplete = function () {}
+            db.createObjectStore(bookmarkStoreName, { keyPath: 'url' });
+            db.createObjectStore(syncStoreName, { keyPath: 'id' });
+            
         }
     
         request.onerror = (event) => {

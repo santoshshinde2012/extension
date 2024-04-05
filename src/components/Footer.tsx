@@ -1,17 +1,36 @@
-
+import { useEffect, useState } from "react";
 
 const Footer = ({ onSnyk, handleExportClick, count = 0 }: { onSnyk: Function, handleExportClick: Function, count: number | null }) => {
 
-    const onClick = () => {
-        onSnyk()
-    }
+    const [syncStatus, setSyncStatus] = useState(false);
+
+    useEffect(() => {
+        if (chrome?.runtime) {
+            chrome.runtime.onMessage.addListener(async function (message, _sender, _sendResponse) {
+                const { action } = message;
+                if (action == "DONE") {
+                    setTimeout(() => {
+                        setSyncStatus(false);
+                    }, 1000);
+
+                }
+            });
+        }
+    }, [])
+
+    const sync = () => {
+        if (chrome?.runtime && !syncStatus) {
+            setSyncStatus(true);
+            onSnyk();
+        }
+    };
 
     const exportClick = () => {
         handleExportClick()
     }
 
     return (
-        <ul className="flex px-3 py-3 space-x-5 items-center gap-3">
+        <ul className="flex px-3 py-3 items-center justify-between">
             <li>
                 <a className="text-gray-700 hover:text-orange-600" aria-label="Twitter" href="https://twitter.com/shindesan2012" target="_blank">
                     <svg className="h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -38,19 +57,24 @@ const Footer = ({ onSnyk, handleExportClick, count = 0 }: { onSnyk: Function, ha
                 </svg>
                 </a>
             </li>
-            <li>
-                <button className="text-gray-700 hover:text-orange-600 flex items-center" onClick={onClick}>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48px" height="48px"><path fill="#4caf50" d="M44,24c0,11.044-8.956,20-20,20S4,35.044,4,24S12.956,4,24,4S44,12.956,44,24z" /><path fill="#ffc107" d="M24,4v20l8,4l-8.843,16c0.317,0,0.526,0,0.843,0c11.053,0,20-8.947,20-20S35.053,4,24,4z" /><path fill="#4caf50" d="M44,24c0,11.044-8.956,20-20,20S4,35.044,4,24S12.956,4,24,4S44,12.956,44,24z" /><path fill="#ffc107" d="M24,4v20l8,4l-8.843,16c0.317,0,0.526,0,0.843,0c11.053,0,20-8.947,20-20S35.053,4,24,4z" /><path fill="#f44336" d="M41.84,15H24v13l-3-1L7.16,13.26H7.14C10.68,7.69,16.91,4,24,4C31.8,4,38.55,8.48,41.84,15z" /><path fill="#dd2c00" d="M7.158,13.264l8.843,14.862L21,27L7.158,13.264z" /><path fill="#558b2f" d="M23.157,44l8.934-16.059L28,25L23.157,44z" /><path fill="#f9a825" d="M41.865,15H24l-1.579,4.58L41.865,15z" /><path fill="#fff" d="M33,24c0,4.969-4.031,9-9,9s-9-4.031-9-9s4.031-9,9-9S33,19.031,33,24z" /><path fill="#2196f3" d="M31,24c0,3.867-3.133,7-7,7s-7-3.133-7-7s3.133-7,7-7S31,20.133,31,24z" /></svg>
-                    <span>Synk</span>
+            <li className="text-gray-700 hover:text-orange-600">
+                <button className="h-8" onClick={exportClick} >
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" className="h-8">
+                        <path d="M8.75 2.75a.75.75 0 0 0-1.5 0v5.69L5.03 6.22a.75.75 0 0 0-1.06 1.06l3.5 3.5a.75.75 0 0 0 1.06 0l3.5-3.5a.75.75 0 0 0-1.06-1.06L8.75 8.44V2.75Z" fill="currentColor" />
+                        <path d="M3.5 9.75a.75.75 0 0 0-1.5 0v1.5A2.75 2.75 0 0 0 4.75 14h6.5A2.75 2.75 0 0 0 14 11.25v-1.5a.75.75 0 0 0-1.5 0v1.5c0 .69-.56 1.25-1.25 1.25h-6.5c-.69 0-1.25-.56-1.25-1.25v-1.5Z" fill="currentColor" />
+                    </svg>
                 </button>
             </li>
-            <li>
-                <button onClick={exportClick}>
-                    <span className="text-gray-700">Count : </span>
-                    <span className="text-blue-700">{count}</span>
+
+            <li className="text-gray-700 hover:text-orange-600">
+                <button className="h-8" onClick={sync} >
+                    <svg xmlns="http://www.w3.org/2000/svg" className={`h-8 ${syncStatus ? 'animate-spin' : ''}`} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3" />
+                    </svg>
+                    <div className="text-sm text-gray-500 text-center">{count}</div>
                 </button>
             </li>
-        </ul>
+        </ul >
     );
 };
 

@@ -4,15 +4,15 @@ import { useIndexedDBCount } from './hooks/useIndexedDBCount';
 import { useState } from 'react';
 import BookmarksList from './components/BookmarksList';
 import { useIndexedDBSearch } from './hooks/useIndexedDBSearch';
-import { databaseName, objectStoreName } from './constants';
+import { databaseName, bookmarkStoreName } from './constants';
 import useIndexedDBExport from './hooks/useIndexedDBExport';
 import ImportData from './components/ImportData';
 
-const App = () => {
+const Popup = () => {
   const [searchTitle, setSearchTitle] = useState('');
-  const [totalCount] = useIndexedDBCount(databaseName, objectStoreName);
+  const [totalCount] = useIndexedDBCount(databaseName, bookmarkStoreName);
   const [foldersMap] = useIndexedDBSearch(searchTitle);
-  const [_exportedData, handleExport] = useIndexedDBExport(databaseName, objectStoreName);
+  const [_exportedData, handleExport] = useIndexedDBExport(databaseName, bookmarkStoreName);
 
   const snyk = () => {
     chrome.runtime.sendMessage({ action: "SYNK" });
@@ -46,4 +46,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Popup;

@@ -22,7 +22,7 @@ const BookmarksListItem = ({ bookmark }: { bookmark: Bookmark }) => {
         <li key={url + dateAdded} className="flex w-full p-4 bg-white border hover:shadow-lg box-border shadow-inner items-center">
             <div className="w-12 h-12 flex-shrink-0">
                 <img
-                    src={originalImage || image || ''}
+                    src={originalImage ?? image}
                     alt={''}
                     className="w-full h-full object-cover rounded-full"
                 />
@@ -32,7 +32,7 @@ const BookmarksListItem = ({ bookmark }: { bookmark: Bookmark }) => {
                 <p className="break-all">
                     <a href={url} className="text-blue-600" target="_blank">{url}</a>
                 </p>
-                <p className="text-sm flex items-center justify-between">
+                <div className="text-sm flex items-center justify-between">
                     <div className="text-gray-500">
                         {date.toLocaleDateString('en-US', {
                             year: 'numeric',
@@ -50,7 +50,7 @@ const BookmarksListItem = ({ bookmark }: { bookmark: Bookmark }) => {
                             <div className="text-green-300">{type}</div>
                         )
                     }
-                </p>
+                </div>
             </div>
         </li>
     );

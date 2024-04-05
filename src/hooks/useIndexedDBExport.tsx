@@ -4,7 +4,7 @@ import { useIndexedDB } from "./useIndexedDB";
 
 const useIndexedDBExport = (
     databaseName: string,
-    objectStoreName: string
+    bookmarkStoreName: string
 ): [ExportedData, () => Promise<void>] => {
     const [db] = useIndexedDB(databaseName);
     const [exportedData, setExportedData] = useState<ExportedData>({
@@ -17,8 +17,8 @@ const useIndexedDBExport = (
             throw new Error("IndexedDB connection not available");
         }
 
-        const transaction = db.transaction(objectStoreName, 'readonly');
-        const objectStore = transaction.objectStore(objectStoreName);
+        const transaction = db.transaction(bookmarkStoreName, 'readonly');
+        const objectStore = transaction.objectStore(bookmarkStoreName);
         const request = objectStore.getAll();
 
         return new Promise((resolve, reject) => {

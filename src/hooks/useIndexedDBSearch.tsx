@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useIndexedDB } from './useIndexedDB';
 import { Bookmark, FolderMap } from '../types';
-import { databaseName, objectStoreName } from '../constants';
+import { databaseName, bookmarkStoreName } from '../constants';
 
 
 export function useIndexedDBSearch(searchTerm: string): [FolderMap | undefined, Error | null] {
@@ -15,7 +15,7 @@ export function useIndexedDBSearch(searchTerm: string): [FolderMap | undefined, 
                 if (!db) {
                     throw new Error("IndexedDB connection not available");
                 }
-                const foldersMap = await getRecordsFromDB(db, objectStoreName, searchTerm);
+                const foldersMap = await getRecordsFromDB(db, bookmarkStoreName, searchTerm);
                 setFoldersMap(foldersMap);
             } catch (error) {
                 setError(error as DOMException);
@@ -27,10 +27,10 @@ export function useIndexedDBSearch(searchTerm: string): [FolderMap | undefined, 
 
     return [foldersMap, error];
 }
-async function getRecordsFromDB(db: IDBDatabase, objectStoreName: string, searchTerm: string): Promise<FolderMap> {
+async function getRecordsFromDB(db: IDBDatabase, bookmarkStoreName: string, searchTerm: string): Promise<FolderMap> {
     return new Promise<FolderMap>((resolve, reject) => {
-        const transaction = db.transaction(objectStoreName, "readonly");
-        const objectStore = transaction.objectStore(objectStoreName);
+        const transaction = db.transaction(bookmarkStoreName, "readonly");
+        const objectStore = transaction.objectStore(bookmarkStoreName);
         const foldersMap: FolderMap = new Map<string, Bookmark[]>();
         const request = objectStore.openCursor();
         request.onsuccess = (event) => {
@@ -68,7 +68,7 @@ function checkRecordForSearchTerm(record: Bookmark, searchTerm: string): boolean
 function updateFolderMap(foldersMap: FolderMap, folder: string, bookmark: Bookmark) {
     if (foldersMap.has(folder)) {
         const bookmarks = foldersMap.get(folder) || [];
-        const index = bookmarks.findIndex(b => bookmark.dateAdded > b.dateAdded);
+        const index = bookmarks.findIndex(b => bookmark.dateAdded < b.dateAdded);
         if (index !== -1) {
             bookmarks.splice(index, 0, bookmark);
         } else {
