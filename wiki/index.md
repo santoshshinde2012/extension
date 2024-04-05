@@ -197,9 +197,7 @@ Once this is complete, the structure of our folders might look like this:
 │   ├── manifest.json
 │   └── vite.svg
 ├── src
-│   ├── App.tsx
-│   ├── assets
-│   │   └── react.svg
+│   ├── Popup.tsx
 │   ├── components
 │   │   ├── BookmarksList.tsx
 │   │   ├── BookmarksListItem.tsx
