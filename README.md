@@ -14,7 +14,7 @@ This repository contains the basic setup for the Chrome extension to read bookma
 
 ### Start the application
 
-- Clone the Application git clone `https://github.com/santoshshinde2012/extension.git`
+- Clone the Application `git clone https://github.com/santoshshinde2012/extension.git`
 - Install the dependencies `npm install`
 - Test the application in the browser `npm run dev`, but you can't test the Chrome Runtime API.
 - Build the extension `npm run build`
