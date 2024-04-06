@@ -52,4 +52,7 @@ This repository contains the basic setup for the Chrome extension to read bookma
    <a href="https://blog.santoshshinde.com/">
     <img src="https://img.shields.io/badge/Blog-black?style=for-the-badge&logo=medium&logoColor=white" alt="Medium Badge"/>
   </a>
+  <a href="https://www.buymeacoffee.com/santoshshin" target="_blank">
+    <img src="https://cdn.buymeacoffee.com/buttons/default-black.png" alt="Buy Me A Coffee" height="28" width="100">
+    </a>
 </div>
