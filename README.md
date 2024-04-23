@@ -1,4 +1,4 @@
-# Chrome Extension - React + TypeScript + Vite
+# [Chrome Extension - React + TypeScript + Vite](https://medium.com/javascript-in-plain-english/getting-started-with-chrome-extensions-using-vite-typescript-react-tailwind-css-and-indexdb-cae7aff39dca)
 
 This repository contains the basic setup for the Chrome extension to read bookmarks, store them in the index database, and search for them by keyword.
 
